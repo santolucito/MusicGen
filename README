@@ -1,0 +1,6 @@
+composes music in abc notation (http://abcnotation.com/)
+
+uses abc4j to convert to score for output/display (http://code.google.com/p/abc4j/)
+
+Will help me practice sightreading!
+
