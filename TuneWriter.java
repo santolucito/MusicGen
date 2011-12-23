@@ -1,67 +1,81 @@
+import java.util.*;
 public class TuneWriter{
 
-public String makeTune(){
+	private String key = "c";
+	private int totalLines =3;
+	private int totalBars = 4;//per line
+	private int totalNotes = 8;//per bar
+	private ArrayList<Note> notes= new ArrayList<Note>();
 
-		String fullTune = "X:1 \nT:Random \nM:4/4 \nC:Runner.java \nK:C\n";
-		Note[] allNotes= new Note[3*4*8];
-		int totalLines =3;
-		int totalBars = 4;//per line
-		int totalNotes = 8;//per bar
+	public String makeTune(){
+
+		String fullTune = "X:1 \nT:Random \nM:4/4 \nC:Runner.java \nK:"+key+"\n";
+		notes.clear();
+
 		int currentPlace =0;
 		for(int line = 0;line<totalLines;line++){
 			for(int bar = 0; bar<totalBars;bar++){
-				int note = 0;
-				System.out.println("new bar");
-				while(note<totalNotes+1){//number of notes+one space
+				int ctr = 1;
+				while(ctr<=totalNotes){//number of notes
 					
-
-					if(note==4){ 
-						note++;
-						fullTune += " ";
-						System.out.println("midway");
-					}
-					else {	
-						allNotes[currentPlace] = makeNote(allNotes,currentPlace,note);			
-						fullTune += allNotes[currentPlace].get();
-						note+=allNotes[currentPlace].howLong();
-						System.out.println(note+" "+allNotes[currentPlace].howLong()+" "+allNotes[currentPlace].get());
-						currentPlace++;
-					}
-
-				
+					if(ctr==5) fullTune += " ";
+					notes.add(makeNote(ctr));	
+					//System.out.println(notes.get(notes.size()-1).value);		
+					fullTune += notes.get(notes.size()-1).getValue();
+					ctr+=notes.get(notes.size()-1).howLong();
 				}
-
 				fullTune += "|";
 			}
+			if(line==totalLines-1) fullTune+="|";
 			fullTune += ("\n");
 		}
 
 		return fullTune;
 	}
 	
-	public Note makeNote(Note[] notes, int p, int n){ //notes current place in array current place in bar
-		if(p==0)return new Note("C2");
-		//System.out.println(p);
-		if(Math.random()>.7)
-		 	return step(notes, 2, p);
-		else if (n!=5&&n!=1)//dont cross midbar split
-			return step(notes,1,p);
-		else return new Note();
+	public Note makeNote(int ctr){ //passed in current place in bar
+		//this is where the algorithm goes
+
+		//first+last note of the piece is tonic
+		if(notes.size()==0)return new Note(key+"2");
+		if(this.totalDuration()>=totalLines*totalBars*(totalNotes)-2) return new Note(key);
+
+		
+		if(Math.random()>.8&&(ctr==3||ctr==5)&&this.totalDuration()<=totalLines*totalBars*(totalNotes-1)) return leap(2);
+		if(Math.random()>.6&&ctr!=4&&ctr!=8) return step(2);
+		else return step(1);
+
 	}
 
-	public Note step(Note[] n, int dur, int p){
-		System.out.println(p);
-		if(Math.random()<.4){
-			Note ret = n[p-1].wholeStepUp();
+	public Note leap(int dur){//passed in duration
+		if(Math.random()<.5){
+			Note ret = notes.get(notes.size()-1);
+			for (int i=0;i<3;i++){ ret = ret.wholeStepUp();}
+			return ret;}
+
+		else {
+			Note ret = notes.get(notes.size()-1);
+			for (int i=0;i<3;i++){ ret = ret.wholeStepDown();}
+			ret.changeDuration(dur);
+			return ret;}
+	}
+	
+	public Note step(int dur){//passed in duration
+		if(Math.random()<.5){
+			Note ret = notes.get(notes.size()-1).wholeStepUp();
 			ret.changeDuration(dur);
 			return ret;}
 
 		else {
-			Note ret = n[p-1].wholeStepDown();
+			Note ret = notes.get(notes.size()-1).wholeStepDown();
 			ret.changeDuration(dur);
 			return ret;}
+	}
 
-
+	public double totalDuration(){
+		double i = 0;
+		for(Note n:notes) i+=n.howLong();
+		return i;
 	}
 
 }
