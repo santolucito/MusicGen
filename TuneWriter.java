@@ -12,15 +12,14 @@ public class TuneWriter{
 		String fullTune = "X:1 \nT:Random \nM:4/4 \nC:Runner.java \nK:"+key+"\n";
 		notes.clear();
 
-		int currentPlace =0;
 		for(int line = 0;line<totalLines;line++){
 			for(int bar = 0; bar<totalBars;bar++){
 				int ctr = 1;
-				while(ctr<=totalNotes){//number of notes
+				while(ctr<=totalNotes){//number of eigth notes in bar
 					
 					if(ctr==5) fullTune += " ";
 					notes.add(makeNote(ctr));	
-					//System.out.println(notes.get(notes.size()-1).value);		
+					//System.out.println(notes.get(notes.size()-1).getValue()+" "+notes.get(notes.size()-1).howLong());		
 					fullTune += notes.get(notes.size()-1).getValue();
 					ctr+=notes.get(notes.size()-1).howLong();
 				}
@@ -38,9 +37,9 @@ public class TuneWriter{
 
 		//first+last note of the piece is tonic
 		if(notes.size()==0)return new Note(key+"2");
+		if(notes.size()==1)return new Note(key+"1");
 		if(this.totalDuration()>=totalLines*totalBars*(totalNotes)-2) return new Note(key);
 
-		
 		if(Math.random()>.8&&(ctr==3||ctr==5)&&this.totalDuration()<=totalLines*totalBars*(totalNotes-1)) return leap(2);
 		if(Math.random()>.6&&ctr!=4&&ctr!=8) return step(2);
 		else return step(1);
@@ -48,26 +47,31 @@ public class TuneWriter{
 	}
 
 	public Note leap(int dur){//passed in duration
+		Note ret = notes.get(notes.size()-1);	
+		//System.out.print(ret.getValue()+" ");
 		if(Math.random()<.5){
-			Note ret = notes.get(notes.size()-1);
-			for (int i=0;i<3;i++){ ret = ret.wholeStepUp();}
+			for (int i=0;i<3;i++){ ret.stepUp();}
+			ret.changeDuration(dur);
+			//System.out.println(ret.getValue());
 			return ret;}
 
 		else {
-			Note ret = notes.get(notes.size()-1);
-			for (int i=0;i<3;i++){ ret = ret.wholeStepDown();}
+			for (int i=0;i<3;i++){ ret.stepDown();}
 			ret.changeDuration(dur);
+			//System.out.println(ret.getValue());
 			return ret;}
 	}
 	
 	public Note step(int dur){//passed in duration
-		if(Math.random()<.5){
-			Note ret = notes.get(notes.size()-1).wholeStepUp();
+		if(Math.random()<.5||(notes.size()>2&&(notes.get(notes.size()-1).getiValue()-notes.get(notes.size()-2).getiValue())>2)){
+			Note ret = new Note(notes.get(notes.size()-1).getValue());
+			ret.stepUp();
 			ret.changeDuration(dur);
 			return ret;}
 
 		else {
-			Note ret = notes.get(notes.size()-1).wholeStepDown();
+			Note ret = new Note(notes.get(notes.size()-1).getValue());
+			ret.stepDown();
 			ret.changeDuration(dur);
 			return ret;}
 	}

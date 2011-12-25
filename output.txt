@@ -3,6 +3,6 @@ T:Random
 M:4/4 
 C:Runner.java 
 K:c
-c2fe B2c2|de2f bc2d|cBc2 def2|efg2 f2e2|
-d2c2 d2c2|dc2B A2BA|GFGA BAGF|EFEF G2F2|
-GFED C2DE|DCDE C2D2|CCDE F2ED|C2CD E2cc||
+c2cd cB2c|B2A2 GABc|B2c2 d2e2|fgc2 B2AG|
+A2BA G2F2|GAG2 c2dc|d2g2 agfe|f2c2 BA2B|
+ABAB e2fg|ab2a g2a2|g2a2 g2f2|g2ab cccc||

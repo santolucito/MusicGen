@@ -28,6 +28,7 @@ public class Runner{
 		TunePlayer play = new TunePlayer();
 		play.start();		
 		play.play(tune);
+		System.out.println(play.isPlaying());
 
 		JFrame j = new JFrame();
 		j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
