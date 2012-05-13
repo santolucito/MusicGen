@@ -9,9 +9,13 @@ import abc.ui.swing.JScoreComponent;
 
 public class Runner{
 
+	
+	public static String style;
+
 	public static void main (String args[]) throws IOException{
 		
 		Runner r = new Runner();
+		style=args[0];
 		r.go();
 	}
 
@@ -19,8 +23,8 @@ public class Runner{
 
 		File flt = new File("output.txt");
 		FileWriter wrt = new FileWriter(flt);
-
-		TuneWriter t = new TuneWriter();
+	
+		TuneWriter t = new TuneWriter(style);
 		String s = t.makeTune();
 		Tune tune = new TuneParser().parse(s);
         	wrt.write(s);
