@@ -1,6 +1,7 @@
 public class Note {//implements Comparable{
 	
-
+	//a comment on master
+	
 	// ^ -> sharp
 	// = -> natural
 	// _ -> flat
