@@ -4,6 +4,7 @@ public class Note {//implements Comparable{
 	//we are on dev now
 	//and testing again
 
+	//blah
 	
 	// ^ -> sharp
 	// = -> natural
