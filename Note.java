@@ -1,8 +1,7 @@
 public class Note {//implements Comparable{
 	
 	
-	//we are on dev now
-	//and testing again
+	//we are now on dev2
 
 	
 	// ^ -> sharp
